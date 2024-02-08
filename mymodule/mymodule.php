@@ -68,15 +68,12 @@ class MyModule extends Module
      */
     public function hookDisplayProductButtons($params)
     {
-        // Assign variables to Smarty
         $this->context->smarty->assign([
             'product_id' => $params['product']['id_product'],
-            'wishlist_link' => $this->context->link->getModuleLink('mymodule', 'add', [])
+            'wishlist_link' => $this->context->link->getModuleLink('mymodule', 'wishlist', [])
         ]);
 
-        // Return the template HTML
         return $this->display(__FILE__, 'wishlist_button.tpl');
-
     }
 
     /**
@@ -86,5 +83,4 @@ class MyModule extends Module
     {
         return $this->context->smarty->fetch($this->local_path.'views/templates/front/wishlist_link.tpl');
     }
-
 }

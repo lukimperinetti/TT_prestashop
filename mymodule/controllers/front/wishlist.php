@@ -1,11 +1,18 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $productId = $_POST['product_id'];
-
-    //insert in ps_wishlist
-    $sql = "INSERT INTO "._DB_PREFIX_."envie (id_customer, id_product) VALUES (".$this->context->customer->id.", ".$productId.")";
-    Db::getInstance()->execute($sql);
-    echo "Product added to wishlist";
-    exit;
-    
+class MymodulewishlistModuleFrontController extends ModuleFrontController
+{
+    public function displayAjaxAdd()
+{
+    try {
+        $productId = Tools::getValue('product_id');
+        Db::getInstance()->insert('envie', array(
+            'id_product' => pSQL($productId),
+            'id_customer' => (int)$this->context->customer->id,
+            // Add other product information here
+        ));
+        die(json_encode(array('success' => true)));
+    } catch (Exception $e) {
+        die(json_encode(array('success' => false, 'error' => $e->getMessage())));
+    }
+}
 }
